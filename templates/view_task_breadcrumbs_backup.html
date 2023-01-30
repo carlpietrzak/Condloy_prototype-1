@@ -1,0 +1,91 @@
+{% if user_type == 'HOA' %}
+{% extends "base.html" %}
+{% else %}
+{% extends "base_vendor.html" %}
+{% endif  %}
+
+{% block content %}
+         <div class="row">
+            <nav class="navbar">
+              <ol class="breadcrumb bg-white">
+		{% if user_type == 'HOA'   %}      
+		<li class="breadcrumb-item"><a href="{{ url_for('open_tasks')  }}">Open Tasks</a></li>
+		{% else  %}
+                <li class="breadcrumb-item"><a href="{{ url_for('available_tasks')  }}">Available Tasks</a></li>
+		{% endif  %}
+		<li class="breadcrumb-item" aria-current="page">{{ task.id  }}</li>
+              </ol>
+            </nav>
+        </div>
+
+	{% if user_type == 'HOA'  %}
+	<a href="{{ url_for('edit_task', id=task.id) }}" class="btn btn-primary btn-sm">Edit Task</a>
+	<a href="{{ url_for('list_proposals', task_id=task.id)  }}" class="btn btn-info btn-sm">Proposals</a>
+	<a href="{{ url_for('history')  }}" class="btn btn-info btn-sm">History</a>
+	<a href="{{ url_for('messages', id=task.id)  }}" class="btn btn-info btn-sm">Messages</a>
+        {% else  %}
+        <a href="{{ url_for('create_proposal', task_id=task.id)  }}" class="btn btn-info btn-sm">Create Proposal</a>
+        <a href="{{ url_for('list_proposals', task_id=task.id)  }}" class="btn btn-info btn-sm">My Proposals</a>
+        <a href="{{ url_for('conversations', task_id=task.id, vendor_id=this_org)  }}" class="btn btn-info btn-sm">Messages</a>
+        {% endif %}
+        <form id="create-task-form">
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+	  {% if user_type == 'Vendor' %}
+           <div class="form-group row">
+            <label for="hoaName" class="col-sm-2 col-form-label">HOA</label>
+	    <div class="col-sm-10">{{ task.hoa_org.name  }}
+            </div>
+          </div>
+	  {% endif %}
+           <div class="form-group row">
+            <label for="status" class="col-sm-2 col-form-label">Status</label>
+	    <div class="col-sm-10">{{ task.status  }}
+            </div>
+          </div>
+           <div class="form-group row">
+            <label for="taskName" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+		    {{ task.name  }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="taskCategory" class="col-sm-2 col-form-label">Category</label>
+            <div class="col-sm-10">
+		    {{ task.category  }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="taskDescription" class="col-sm-2 col-form-label">Description</label>
+	    <div class="col-sm-10">{{ task.description }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="dueDateField" class="col-sm-2 col-form-label">Due Date</label>
+            <div class="col-sm-10">
+		    {{ task.due_by  }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="createdDateField" class="col-sm-2 col-form-label">Created Date</label>
+            <div class="col-sm-10">
+              {{ task.created_at  }}
+            </div>
+          </div>
+	  {% if user_type == 'HOA' %}
+          <div class="form-group row">
+            <label for="createdBy" class="col-sm-2 col-form-label">Created By</label>
+	    <div class="col-sm-10">{{ task.user.first_name  }} {{ task.user.last_name  }}
+            </div>
+          </div>
+	  {% endif %}
+          <div class="form-group row">
+            <label for="displayFiles" class="col-sm-2 col-form-label">Files</label>
+            <div class="col-sm-10">
+               <a href="#">intercom1.png</a> <a href="#">intercom2.png</a>
+            </div>
+          </div>
+        </form>
+	{% endblock  %}

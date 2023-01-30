@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <div class="row">
+        <nav class="navbar">
+          <ol class="breadcrumb bg-white">
+		  <li class="breadcrumb-item"><a href="{{ url_for('tasks')  }}">Home</a></li>
+		  <li class="breadcrumb-item"><a href="{{ url_for('open_tasks') }}">Open Tasks</a></li>
+		  <li class="breadcrumb-item"><a href="{{ url_for('view_task') }}">1</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Proposals</li>
+          </ol>
+        </nav>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Number</th>
+              <th scope="col">Vendor</th>
+              <th scope="col">Description</th>
+              <th scope="col">Date Created</th>
+              <th scope="col">Estimate</th>
+              <th scope="col">Comments</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+	      <th scope="row"><a href="{{ url_for('view_proposal')  }}">1</a></th>
+              <td>ACME Repairs</td>
+              <td>We have the part to fix the intercom in stock. One of our technicians can head over to fix...</td>
+              <td>2020-03-07</td>
+              <td>$120.00</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="#">2</a></th>
+              <td>ABC Electrical</td>
+              <td>First we'll assess the wiring leading back into the building to determine if there are...</td>
+              <td>2020-03-07</td>
+              <td>$400.00</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+          </table>
+	  {% endblock  %}

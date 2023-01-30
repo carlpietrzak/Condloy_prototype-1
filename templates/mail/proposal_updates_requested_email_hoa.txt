@@ -1,0 +1,3 @@
+Hello {{ proposal.task.user.name  }},
+
+Updates have been requested for the proposal {{ proposal.id }} for your task "{{ proposal.task.name }}".

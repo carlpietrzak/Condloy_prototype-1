@@ -1,0 +1,83 @@
+{% extends "base_vendor.html" %}
+
+{% block content %}
+        <div class="row">
+	<nav class="row">
+        <nav class="navbar">
+          <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item">Tasks</li>
+            <li class="breadcrumb-item"><a href="{{ url_for('view_task', id=task_id)}}">{{ task_name  }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('list_proposals', task_id=task_id) }}">Proposals</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ proposal.id  }}</li>
+          </ol>
+        </nav>
+	</nav>
+        </div> 
+	<form id="edit-proposal-form" action="{{ url_for('edit_proposal', id=proposal.id, task_id=task_id)  }}" method="post">
+          <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+	  <a class="btn btn-danger btn-sm" href="{{ url_for('view_proposal', id=proposal.id, task_id=task_id)  }}">Cancel</a>
+           <div class="form-group row">
+            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+	       <textarea class="form-control" id="description" name="description" rows=5 placeholder="description here">{{ proposal.content }}</textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="estimate" class="col-sm-2 col-form-label">Estimate ($)</label>
+            <div class="col-sm-10">
+	      <input type="number" class="form-control" id="estimate" name="estimate" value={{proposal.cost_estimate}}>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlFile1" class="col-sm-2 col-form-label">File Upload</label>
+            <div class="col-sm-10">
+              <input type="file" class="form-control-file" id="exampleFormControlFile1" multiple>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+         <div class="container-fluid">
+         <table id="myTable" class=" table order-list">
+           <thead>
+             <tr class="d-flex">
+               <th class="col-5">Description</td>
+               <th class="col-2">Price</td>
+               <th class="col-1">Quantity</td>
+               <th class="col-2">Total</td>
+               <th class="col-2"><input type="button" class="btn btn-primary btn-block" id="addRow" value="Add Line"/></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for line in proposal.lines  %}
+	    <tr class="d-flex" id="row{{ line.id  }}">
+              <td class="col-5">
+                <input type="text" name="descriptionLine{{ line.id  }}" class="form-control" value="{{ line.description  }}"/>
+              </td>
+              <td class="col-2">
+		 <input type="text" id="price{{ line.id }}" name="priceLine{{ line.id }}" class="form-control" onkeyup="calculateTotal({{line.id}})" value="{{ line.price  }}" />
+              </td>
+              <td class="col-1">
+		 <input type="text" id="quantity{{ line.id }}"  name="quantityLine{{ line.id  }}" class="form-control" onkeyup="calculateTotal({{line.id}})" value="{{ line.quantity  }}"/>
+              </td>
+              <td class="col-2">
+		 <input type="text" id="total{{ line.id  }}"  name="totalLine{{ line.id  }}" class="form-control line-total" value="{{ line.total  }}"/>
+		 <input type="hidden" name="existingLine{{ line.id  }}" value="true">
+	      </td>
+	      <td class="col-2"><input type="button" class="ibtnDel btn btn-md btn-danger btn-block" value="Delete" />
+              </td>
+	    </tr>
+	   {% endfor  %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td class="col-12" style="text-align: left;">
+              </td>
+            </tr>
+            <tr>
+            </tr>
+         </tfoot>
+         </table>
+	 </form>
+{% endblock  %}

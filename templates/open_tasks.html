@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <div class="row">
+        <nav class="navbar">
+          <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item active" aria-current="page">Tasks</li>
+          </ol>
+        </nav>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Category</th>
+              <th scope="col">ID</th>
+              <th scope="col">Date Created</th>
+              <th scope="col">Date Due</th>
+              <th scope="col">Messages</th>
+              <th scope="col">Proposals</th>
+            </tr>
+          </thead>
+          <tbody>
+	    {% for task in tasks %}	  
+            <tr>
+	      <td><a href="{{ url_for('view_task', id=task.id)   }}">{{ task.name  }}</a></th>
+	      <td>{{ task.category  }}</td>
+	      <td><a href="{{ url_for('view_task', id=task.id)   }}">{{ task.id }}</a></td>
+	      <td>{{ task.created_at }}</td>
+	      <td>{{ task.due_by }}</td>
+	      <td><a href="{{ url_for('messages', id=task.id) }}">2</a></td>
+	      <td><a href="{{ url_for('proposals')   }}">2</a></td>
+            </tr>
+	    {% endfor  %}
+          </tbody>
+          </table>
+	  {% endblock  %}

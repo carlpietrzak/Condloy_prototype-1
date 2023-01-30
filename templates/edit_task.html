@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+       <div class="row">
+	  <nav class="row">
+            <nav class="navbar">
+              <ol class="breadcrumb bg-white">
+                 <li class="breadcrumb-item">Tasks</li>
+                 <li class="breadcrumb-item active" aria-current="page">{{ task.name  }}</li>
+              </ol>
+            </nav>
+	  </nav>
+        </div>
+        <form id="create-task-form" action="{{ url_for('edit_task', id=task.id) }}" method="post" enctype="multipart/form-data">
+	  <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+	  <a href="{{ url_for('view_task', id=task.id)  }}" class="btn btn-danger btn-sm">Cancel</a>
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="taskDescription" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+	      <textarea class="form-control" id="taskDescription" name="taskDescription"  rows=5>{{ task.description }}</textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="taskCategory" class="col-sm-2 col-form-label">Category</label>
+            <div class="col-sm-10">
+	      <select class="selectpicker" id="taskCategory" name="taskCategory" data-live-search="true">
+		      <option data-tokens="Select Category">Select Category</option>
+		      <option data-tokens="Appliance Repair" {{ 'selected 'if task.category == 'Appliance Repair'}} >Appliance Repair</option>
+                <option data-tokens="Blacktop Sealcoating" {{ 'selected 'if task.category == 'Blacktop Sealcoating'}} >Blacktop Sealcoating</option>
+                <option data-tokens="Cable & Internet" {{ 'selected 'if task.category == 'Cable / Internet'}} >Cable / Internet</option>
+                <option data-tokens="Carpet Cleaning" {{ 'selected 'if task.category == 'Carpet Cleaning'}} >Carpet Cleaning</option>
+                <option data-tokens="Cleaning" {{ 'selected 'if task.category == 'Cleaning'}} >Cleaning</option>
+                <option data-tokens="Construction Contractors" {{ 'selected 'if task.category == 'Construction Contractors'}} >Construction Contractors</option>
+                <option data-tokens="Electricians" {{ 'selected 'if task.category == 'Electricians'}} >Electricians</option>
+                <option data-tokens="Elevator Repair/Maintenance" {{ 'selected 'if task.category == 'Elevator Repair/Maintenance'}} >Elevator Repair/Maintenance</option>
+                <option data-tokens="Environmental Consulting" {{ 'selected 'if task.category == 'Environmental Consulting'}} >Environmental Consulting</option>
+                <option data-tokens="FHA Certification" {{ 'selected 'if task.category == 'FHA Certification'}} >FHA Certification</option>
+                <option data-tokens="Fencing" {{ 'selected 'if task.category == 'Fencing'}} >Fencing</option>
+                <option data-tokens="Fire Safety Equipment" {{ 'selected 'if task.category == 'Fire Safety Equipment'}} >Fire Safety Equipment</option>
+                <option data-tokens="Garage Door Repair" {{ 'selected 'if task.category == 'Garage Door Repair'}} >Garage Door Repair</option>
+                <option data-tokens="Gutter Repair/Maintenance" {{ 'selected 'if task.category == 'Gutter Repair/Maintenance'}} >Gutter Repair/Maintenance</option>
+                <option data-tokens="Handyman" {{ 'selected 'if task.category == 'Handyman'}} >Handyman</option>
+                <option data-tokens="Heating & AC Repair" {{ 'selected 'if task.category == 'Heating / AC Repair'}} >Heating / AC Repair</option>
+                <option data-tokens="Inspections/Reserve Studies" {{ 'selected 'if task.category == 'Inspection/Reserve Studies'}} >Inspections/Reserve Studies</option>
+                <option data-tokens="Intercom/Entry Systems" {{ 'selected 'if task.category == 'Intercom/Entry Systems'}} >Intercom/Entry Systems</option>
+                <option data-tokens="Land Surveying" {{ 'selected 'if task.category == 'Land Surveying'}} >Land Surveying</option>
+                <option data-tokens="Landscaping/Snow Removal" {{ 'selected 'if task.category == 'Landscaping/Snow Removal'}} >Landscaping/Snow Removal</option>
+                <option data-tokens="Laundry Service" {{ 'selected 'if task.category == 'Laundry Service'}} >Laundry Service</option>
+                <option data-tokens="Locksmith" {{ 'selected 'if task.category == 'Locksmith'}} >Locksmith</option>
+                <option data-tokens="Mediation Services" {{ 'selected 'if task.category == 'Mediation Services'}} >Mediation Services</option>
+                <option data-tokens="Packaged Maintenance" {{ 'selected 'if task.category == 'Packaged Maintenance'}} >Packaged Maintenance</option>
+                <option data-tokens="Pest Control" {{ 'selected 'if task.category == 'Pest Control'}} >Pest Control</option>
+                <option data-tokens="Plumbing" {{ 'selected 'if task.category == 'Plumbing'}} >Plumbing</option>
+                <option data-tokens="Real Estate Tax Appeals" {{ 'selected 'if task.category == 'Real Estate Tax Appeals'}} >Real Estate Tax Appeals</option>
+                <option data-tokens="Restoration (Water & Smoke Damage)" {{ 'selected 'if task.category == 'Restoration (Water / Smoke Damage)'}} >Restoration (Water / Smoke Damage)</option>
+                <option data-tokens="Roofing" {{ 'selected 'if task.category == 'Roofing'}} >Roofing</option>
+                <option data-tokens="Tuck Pointing & Masonry" {{ 'selected 'if task.category == 'Tuck Pointing / Masonry'}} >Tuck Pointing / Masonry</option>
+                <option data-tokens="Other" {{ 'selected 'if task.category == 'Other'}} >Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="dueDateField" class="col-sm-2 col-form-label">Due Date</label>
+            <div class="col-sm-3">
+	      <input type="date" class="form-control" id="dueDateField" name="dueDateField"  value="{{ task.due_by }}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="fileUpload" class="col-sm-2 col-form-label">Image Upload</label>
+            <div class="col-sm-10">
+              <input type="file" class="form-control-file" id="fileUpload" name="fileUpload" multiple>
+            </div>
+          </div>
+          {% if task.images %}
+          <div class="form-group row">
+            <label for="displayFiles" class="col-sm-2 col-form-label">Remove Images</label>
+            <div class="col-sm-10">
+              {% for i in task.get_images() %}
+              <div class="form-check">
+		  <input class="form-check-input" type="checkbox" name="removeImage"   value="{{ i }}" id="{{ i }}">
+		  <label class="form-check-label" for="{{ i  }}">{{ i }}</label>
+              </div>
+              {% endfor %}
+
+             </div>
+          </div>
+	  {% endif %}
+        </form>
+{% endblock  %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="row">
+	<nav class="row">
+        <nav class="navbar">
+          <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item active" aria-current="page">Admin</li>
+          </ol>
+        </nav>
+	</nav>
+        </div> 
+          <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">ID</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+	    {% for org in orgs %}	  
+            <tr>
+	      <td><a href="{{ url_for('admin_view_org', org_id=org.id)  }}" target="_blank">{{ org.name }}</a></th>
+	      <td><a href="{{ url_for('admin_view_org', org_id=org.id)  }}" target="_blank">{{ org.id }}</a></td>
+	      <td><a class="btn btn-primary btn-sm" href="{{ url_for('switch_to_org', org_id=org.id)  }}" role="button">Switch</a></td>
+            </tr>
+	    {% endfor  %}
+          </tbody>
+          </table>
+	  {% endblock  %}

@@ -1,0 +1,3 @@
+Hello {{ proposal.task.user.first_name  }},
+
+A new proposal has been created for task "{{ proposal.task.name  }}".

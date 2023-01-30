@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="row">
+	<nav class="row">
+        <nav class="navbar">
+          <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item active" aria-current="page">Tasks</li>
+          </ol>
+        </nav>
+	</nav>
+	</div>
+        <a href="{{ url_for('admin_task_approvals', status='true') }}" class="btn btn-info btn-sm">Approved</a>
+	<a href="{{ url_for('admin_task_approvals', status='false') }}" class="btn btn-info btn-sm">Not Approved</a>
+	<div class="form-group row"><div class="col-sm-12"></div></div>
+          <table class="table">
+          <thead>
+            <tr>
+							<th scope="col">Date Created</th>
+							<th scope="col">ID</th>
+							<th scope="col">Name</th>
+							<th scope="col">Category</th>
+	      			<th scope="col">HOA</th>
+							<th scope="col">Date Due</th>
+							<th scope="col">Vendors</th>
+	      			<th scope="col">Approved</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+	    {% for task in tasks %}
+            <tr>
+							<td>{{ task.created_at.strftime('%m/%d/%Y') }}</td>
+							<td><a href="{{ url_for('view_task', id=task.id)   }}" target="_blank">{{ task.id }}</a></td>
+							<td><a href="{{ url_for('view_task', id=task.id)   }}" target="_blank">{{ task.name  }}</a></td>
+							<td>{{ task.category  }}</td>
+	      			<td><a href="{{  url_for('admin_view_org', org_id=task.hoa_org.id) }}" target="_blank">{{ task.hoa_org.name  }}</a></td>
+              <td>{{ task.due_by.strftime('%m/%d/%Y') }}</td>
+							<td>
+		 						{% if task.vendors_assigned %}
+		   						<ul>
+		   						{% for v in task.vendors_assigned %}
+		   						<li><a href="{{ url_for('admin_view_org', org_id=v.id)  }}" target="_blank">{{v.name}}</a></li>
+		   						{% endfor %}
+		   						</ul>
+		 							{% else %}
+		   						None
+		 						{% endif %}
+	      			</td>
+	      			<td>{{ task.admin_approved}}</td>
+	      			<td><a href="{{ url_for('admin_manage_task', task_id=task.id)  }}" target="_blank">Manage</a></td>
+            </tr>
+	    {% endfor  %}
+          </tbody>
+          </table>
+	  {% endblock  %}

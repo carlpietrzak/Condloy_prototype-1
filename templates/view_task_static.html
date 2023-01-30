@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+         <div class="row">
+            <nav class="navbar">
+              <ol class="breadcrumb bg-white">
+		<li class="breadcrumb-item"><a href="{{ url_for('tasks')  }}">Home</a></li>
+		<li class="breadcrumb-item"><a href="{{ url_for('open_tasks')  }}">Open Tasks</a></li>
+                <li class="breadcrumb-item" aria-current="page">1</li>
+              </ol>
+            </nav>
+        </div>
+	<a href="{{ url_for('edit_task') }}" class="btn btn-primary btn-sm">Edit Task</a>
+	<a href="{{ url_for('messages')  }}" class="btn btn-info btn-sm">Messages (2)</a>
+	<a href="{{ url_for('proposals')  }}" class="btn btn-info btn-sm">Proposals (2)</a>
+	<a href="{{ url_for('history')  }}" class="btn btn-info btn-sm">History (2)</a>
+        <form id="create-task-form">
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="status" class="col-sm-2 col-form-label">Status</label>
+            <div class="col-sm-10">Open
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="taskDescription" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+              The intercom at the main gate is broken. Looks like the wiring might be the issue. Maybe place a character limit and indicate extra text using this...Here is more text.
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="taskCategory" class="col-sm-2 col-form-label">Category</label>
+            <div class="col-sm-10">
+              repairs
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="dueDateField" class="col-sm-2 col-form-label">Due Date</label>
+            <div class="col-sm-10">
+              03/05/2021
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="createdDateField" class="col-sm-2 col-form-label">Created Date</label>
+            <div class="col-sm-10">
+              03/04/2021
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="createdBy" class="col-sm-2 col-form-label">Created By</label>
+            <div class="col-sm-10">
+              rkraynak
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="displayFiles" class="col-sm-2 col-form-label">Files</label>
+            <div class="col-sm-10">
+               <a href="#">intercom1.png</a> <a href="#">intercom2.png</a>
+            </div>
+          </div>
+        </form>
+	{% endblock  %}

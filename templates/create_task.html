@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+         <div class="row">
+	   <nav class="row">	 
+            <nav class="navbar">
+              <ol class="breadcrumb bg-white">
+                <li class="breadcrumb-item">Tasks</li>
+                <li class="breadcrumb-item" aria-current="page">Create</li>
+              </ol>
+            </nav>
+	  </nav>
+        </div>
+         <form id="create-task-form" action="{{ url_for('create_task')  }}" method="post" enctype="multipart/form-data">
+	  <div class="form-group row">
+            <label for="taskName" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="taskName" name="taskName" maxlength="35"  placeholder="35 characters or less">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="taskDescription" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" id="taskDescription" name="taskDescription" rows=5 placeholder="description here"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="taskCategory" class="col-sm-2 col-form-label">Category</label>
+            <div class="col-sm-10">
+              <select class="selectpicker" id="taskCategory" name="taskCategory" data-live-search="true">
+                <option data-tokens="Select Category">Select Category</option>
+	        <option data-tokens="Appliance Repair">Appliance Repair</option>
+                <option data-tokens="Blacktop Sealcoating">Blacktop Sealcoating</option>
+                <option data-tokens="Cable & Internet">Cable / Internet</option>
+                <option data-tokens="Carpet Cleaning">Carpet Cleaning</option>
+                <option data-tokens="Cleaning">Cleaning</option>
+                <option data-tokens="Construction Contractors">Construction Contractors</option>
+                <option data-tokens="Electricians">Electricians</option>
+                <option data-tokens="Elevator Repair/Maintenance">Elevator Repair/Maintenance</option>
+                <option data-tokens="Environmental Consulting">Environmental Consulting</option>
+                <option data-tokens="FHA Certification">FHA Certification</option>
+                <option data-tokens="Fencing">Fencing</option>
+                <option data-tokens="Fire Safety Equipment">Fire Safety Equipment</option>
+                <option data-tokens="Garage Door Repair">Garage Door Repair</option>
+                <option data-tokens="Gutter Repair/Maintenance">Gutter Repair/Maintenance</option>
+                <option data-tokens="Handyman">Handyman</option>
+                <option data-tokens="Heating & AC Repair">Heating / AC Repair</option> 
+                <option data-tokens="Inspections/Reserve Studies">Inspections/Reserve Studies</option>
+                <option data-tokens="Intercom/Entry Systems">Intercom/Entry Systems</option>
+                <option data-tokens="Land Surveying">Land Surveying</option>
+                <option data-tokens="Landscaping/Snow Removal">Landscaping/Snow Removal</option>
+                <option data-tokens="Laundry Service">Laundry Service</option>
+                <option data-tokens="Locksmith">Locksmith</option>
+                <option data-tokens="Mediation Services">Mediation Services</option>
+                <option data-tokens="Packaged Maintenance">Packaged Maintenance</option>
+                <option data-tokens="Pest Control">Pest Control</option>
+                <option data-tokens="Plumbing">Plumbing</option>
+                <option data-tokens="Real Estate Tax Appeals">Real Estate Tax Appeals</option>
+                <option data-tokens="Restoration (Water & Smoke Damage)">Restoration (Water / Smoke Damage)</option> 
+                <option data-tokens="Roofing">Roofing</option>
+                <option data-tokens="Tuck Pointing & Masonry">Tuck Pointing / Masonry</option>
+                <option data-tokens="Other">Other</option>
+              </select> 
+	    </div>
+          </div>
+          <div class="form-group row">
+            <label for="dueDateField" class="col-sm-2 col-form-label">Due Date</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="dueDateField" name="dueDateField" >
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="fileUpload" class="col-sm-2 col-form-label">File Upload</label>
+            <div class="col-sm-10">
+              <input type="file" class="form-control-file" id="fileUpload" name="fileUpload" multiple>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+	{% endblock  %}

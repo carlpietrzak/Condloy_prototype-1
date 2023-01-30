@@ -1,0 +1,117 @@
+{% if user_type == 'HOA'  %}
+{% extends "base.html" %}
+{% else  %}
+{% extends "base_vendor.html"%}
+{% endif %}
+{% block content %}
+        <div class="row">
+        <nav class="navbar">
+          <ol class="breadcrumb bg-white">
+            {% if user_type == 'HOA' %}
+	    <li class="breadcrumb-item"><a href="{{ url_for('open_tasks') }}">Open Tasks</a></li>
+	    {% else %}
+	    <li class="breadcrumb-item"><a href="{{ url_for('available_tasks') }}">Available Tasks</a></li>
+            {% endif %}
+	    <li class="breadcrumb-item"><a href="{{ url_for('view_task', id=task_id)}}">{{ task_id  }}</a></li>
+	    <li class="breadcrumb-item"><a href="{{ url_for('list_proposals', task_id=task_id) }}">Proposals</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">{{ proposal.id  }}</li>
+          </ol>
+        </nav>
+        </div>
+	{% if user_type == 'HOA' %}
+		<form id="proposal-action-form" action="{{ url_for('proposal_action', id=proposal.id, task_id=task_id)  }}" method="post">
+		<button type="submit"  class="btn btn-success btn-sm" name="action"  value="hoa-accept">Accept Proposal</button>
+        	{% if proposal.status == 'Accepted' or proposal.status == 'Withdrawn' or proposal.status == 'Declined'  %}
+			<a class="btn btn-secondary btn-sm" href="#">Request Updates</a>
+        	{% else  %}
+			<a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal">Request Updates</a>
+        	{% endif %}
+		<button type="submit"  class="btn btn-danger btn-sm" name="action" value="hoa-decline">Decline</button>
+		</form>
+	{% else  %}
+		<form id="proposal-action-form" action="{{ url_for('proposal_action', id=proposal.id, task_id=task_id)  }}" method="post">
+		{% if proposal.status == 'Accepted' or proposal.status == 'Withdrawn' or proposal.status == 'Declined'  %}
+			<a class="btn btn-secondary btn-sm" href="#">Edit</a>
+		{% else  %}
+        		<a class="btn btn-info btn-sm" href="{{ url_for('edit_proposal', id=proposal.id, task_id=task_id)  }}">Edit</a>
+		{% endif %}
+		<button type="submit" class="btn btn-danger btn-sm" name="action"  value="vendor-withdraw">Withdraw</button>
+		</form>
+	{% endif %}
+        <form id="view-proposal-form">
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="vendor" class="col-sm-2 col-form-label">Vendor</label>
+	    <div class="col-sm-10"><a href="#">{{ proposal.vendor_org.name  }}</a>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="status" class="col-sm-2 col-form-label">Status</label>
+	    <div class="col-sm-10">{{ proposal.status  }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="taskDescription" class="col-sm-2 col-form-label">Description</label>
+	    <div class="col-sm-10">{{ proposal.content }}
+            </div>
+          </div>
+	  <div class="form-group row">
+            <label for="createdDateField" class="col-sm-2 col-form-label">Created Date</label>
+            <div class="col-sm-10">
+		    {{ proposal.created_at  }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="createdBy" class="col-sm-2 col-form-label">Created By</label>
+            <div class="col-sm-10">
+		    <a href="#">{{ proposal.user.first_name  }}</a>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="createdBy" class="col-sm-2 col-form-label">Estimate</label>
+            <div class="col-sm-10">
+		    ${{ proposal.cost_estimate }}
+            </div>
+          </div>
+            {% if proposal.requested_updates is not none and user_type == 'HOA' %}
+           <div class="form-group row">
+            <label for="status" class="col-sm-2 col-form-label">Your Comments</label>
+	    <div class="col-sm-10">{{ proposal.requested_updates  }}
+            </div>
+          </div>
+          {% elif proposal.requested_updates is not none and user_type == 'Vendor' %}
+	  <div class="form-group row">
+            <label for="status" class="col-sm-2 col-form-label">HOA Comments</label>
+	    <div class="col-sm-10">{{ proposal.requested_updates  }}
+            </div>
+          </div>
+	  {% endif %}
+        </form>
+
+        <!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  	 <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Request Updates</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+             </div>
+	   <form id="hoa-request-updates-form" action="{{ url_for('proposal_action', id=proposal.id, task_id=task_id, action='hoa-request-update') }}" method="post">
+           <div class="modal-body">
+               <input id="requestedUpdates" name="requestedUpdates" type="text" placeholder="comments here" class="form-control"></input>
+           </div>
+           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" name="action" value="hoa-request-update">Save changes</button>
+           </div>
+	   </form >
+          </div>
+         </div>
+        </div>           
+
+{% endblock %}

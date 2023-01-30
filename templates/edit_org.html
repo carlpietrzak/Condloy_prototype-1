@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <div class="row">
+	   <nav class="row">	 
+            <nav class="navbar">
+              <ol class="breadcrumb bg-white">
+                 <li class="breadcrumb-item active" aria-current="page">Organization Profile</li>
+              </ol>
+            </nav>
+	    </nav> 
+        </div>
+	{% if user_type == 'admin'  %}
+        <form id="org-form" action="{{ url_for('edit_org', org_id=org.id)  }}" method="post">
+        {% else  %}
+	<form id="org-form" action="{{ url_for('edit_org')  }}" method="post">
+	{% endif  %}
+           <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+	   {% if user_type == 'admin'  %}
+           <a href="{{ url_for('admin_view_org', org_id=org.id)  }}" class="btn btn-danger btn-sm">Cancel</a>
+           {% else  %}
+           <a href="{{ url_for('org_profile')  }}" class="btn btn-danger btn-sm">Cancel</a>
+	   {% endif %}
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+           <div class="form-group row">
+            <label for="orgName" class="col-sm-2 col-form-label">Name</label>
+	    <div class="col-sm-10">
+	      <input type="text" class="form-control" id="orgName" name="name" value="{{ org.name  }}" /> 
+            </div>
+          </div>
+           <div class="form-group row">
+            <label for="orgType" class="col-sm-2 col-form-label">Org Type</label>
+            <div class="col-sm-10">
+	      <input type="text" class="form-control" id="orgType" name="orgType" value="{{ org.org_type  }}" /> 
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="orgAddress" class="col-sm-2 col-form-label">Address</label>
+            <div class="col-sm-10">
+        	<input type="text" class="form-control" id="orgName" name="address" value="{{ org.street_address  }}" /> 
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="orgCity" class="col-sm-2 col-form-label">City</label>
+            <div class="col-sm-10">
+        	<input type="text" class="form-control" id="orgCity" name="city" value="{{ org.city  }}" /> 
+            </div>
+          </div>
+           <div class="form-group row">
+            <label for="orgState" class="col-sm-2 col-form-label">State</label>
+            <div class="col-sm-10">
+		 <input type="text" class="form-control" id="orgState" name="state" value="{{ org.state  }}" /> 
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="orgZipcode" class="col-sm-2 col-form-label">Zip Code</label>
+            <div class="col-sm-10">
+		<input type="text" class="form-control" id="orgZipcode" name="zipcode" value="{{ org.zipcode  }}" /> 
+            </div>
+          </div>
+          {% if user_type == 'Vendor' or user_type == 'admin' %}
+          <div class="form-group row">
+              <label for="taskCategory" class="col-sm-2 col-form-label">Task Categories</label>
+              <div class="col-sm-10">
+              <select class="selectpicker" id="taskCategory" name="taskCategory" data-live-search="true" title="Category" multiple>
+                <option data-tokens="Appliance Repair"    {{ 'selected' if 'Appliance Repair' in categories}}>Appliance Repair</option>
+                <option data-tokens="Blacktop Sealcoating"  {{ 'selected' if 'Blacktop Sealcoating' in categories}}>Blacktop Sealcoating</option>
+                <option data-tokens="Cable / Internet" {{ 'selected' if 'Cable / Internet' in categories}}>Cable / Internet</option>
+                <option data-tokens="Carpet Cleaning" {{ 'selected' if 'Carpet Cleaning' in categories}}>Carpet Cleaning</option>
+                <option data-tokens="Cleaning"  {{ 'selected' if 'Cleaning' in categories}}>Cleaning</option>
+                <option data-tokens="Construction Contractors"  {{ 'selected' if 'Construction Contractors' in categories}}>Construction Contractors</option>
+                <option data-tokens="Electricians"  {{ 'selected' if 'Electricians' in categories}}>Electricians</option>
+                <option data-tokens="Elevator Repair/Maintenance"  {{' selected 'if 'Elevator Repair/Maintenance' in categories}}>Elevator Repair/Maintenance</option>
+                <option data-tokens="Environmental Consulting"  {{ 'selected' if 'Environmental Consulting' in categories}}>Environmental Consulting</option>
+                <option data-tokens="FHA Certification" {{ 'selected' if 'FHA Certification' in categories}}>FHA Certification</option>
+                <option data-tokens="Fencing"  {{ 'selected 'if' Fencing' in categories}}>Fencing</option>
+                <option data-tokens="Fire Safety Equipment"  {{ 'selected' if 'Fire Safety Equipment' in categories}}>Fire Safety Equipment</option>
+                <option data-tokens="Garage Door Repair" {{ 'selected' if 'Garage Door Repair' in categories}}>Garage Door Repair</option>
+                <option data-tokens="Gutter Repair/Maintenance" {{ 'selected' if 'Gutter Repair/Maintenance' in categories}}>Gutter Repair/Maintenance</option>
+                <option data-tokens="Handyman" {{ 'selected' if 'Handyman' in categories}}>Handyman</option>
+                <option data-tokens="Heating / AC Repair"  {{ 'selected' if 'Heating / AC Repair' in categories}}>Heating / AC Repair</option>
+                <option data-tokens="Inspections/Reserve Studies"  {{ 'selected' if 'Inspections/Reserve Studies' in categories}}>Inspections/Reserve Studies</option>
+                <option data-tokens="Intercom/Entry Systems"  {{ 'selected' if 'Intercom/Entry Systems' in categories}}>Intercom/Entry Systems</option>
+                <option data-tokens="Land Surveying"  {{ 'selected' if 'Land Surveying' in categories}}>Land Surveying</option>
+                <option data-tokens="Landscaping/Snow Removal" {{ 'selected' if 'Landscaping/Snow Removal' in categories}}>Landscaping/Snow Removal</option>
+                <option data-tokens="Laundry Service"  {{ 'selected' if 'Laundry Service' in categories}}>Laundry Service</option>
+                <option data-tokens="Locksmith"  {{ 'selected' if 'Locksmith' in categories}}>Locksmith</option>
+                <option data-tokens="Mediation Services"  {{ 'selected' if 'Mediation Services' in categories}}>Mediation Services</option>
+                <option data-tokens="Packaged Maintenance"  {{ 'selected' if 'Packaged Maintenance' in categories}}>Packaged Maintenance</option>
+                <option data-tokens="Pest Control"  {{ 'selected' if 'Pest Control' in categories}}>Pest Control</option>
+                <option data-tokens="Plumbing" {{ 'selected' if 'Plumbing' in categories}}>Plumbing</option>
+                <option data-tokens="Real Estate Tax Appeals" {{ 'selected' if 'Real Estate Tax Appeals' in categories}}>Real Estate Tax Appeals</option>
+                <option data-tokens="Restoration (Water / Smoke Damage)" {{ 'selected' if 'Restoration (Water / Smoke Damage)' in categories}}>Restoration (Water / Smoke Damage)</option>
+                <option data-tokens="Roofing" {{ 'selected' if 'Roofing' in categories}}>Roofing</option>
+                <option data-tokens="Tuck Pointing / Masonry" {{ 'selected' if 'Tuck Pointing / Masonry' in categories}}>Tuck Pointing / Masonry</option>
+                <option data-tokens="Other" {{ 'selected' if 'Other' in categories}}>Other</option>
+              </select>
+             </div>
+          </div>
+	  <div id="zipSection">
+	   {% for tz in target_zips  %}	  
+           <div class="form-group row">
+            <label for="targetZip1" class="col-sm-2 col-form-label">Target Zip</label>
+            <div class="col-sm-2">
+		    <input type="text" class="form-control" id="targetZip1" name="targetZip1" value={{ tz.zipcode  }} /> 
+            </div>
+	    <label for="radius1" class="col-sm-2 col-form-label">Radius (Miles)</label>
+	    <div class="col-sm-2">
+		    <input type="text" class="form-control" id="radius1" name="radius1" value={{ tz.max_distance  }} />
+	    </div>
+	    <div class="col-sm-2">
+		 <input type="button" class="btn btn-block btn-danger remove-zip" value="Remove" />
+	    </div>
+          </div>
+	  {% endfor %}
+           <div class="form-group row">
+            <label for="targetZip1" class="col-sm-2 col-form-label">Target Zip</label>
+            <div class="col-sm-2">
+		    <input type="text" class="form-control" id="targetZip1" name="targetZip1"  /> 
+            </div>
+	    <label for="radius1" class="col-sm-2 col-form-label">Radius (Miles)</label>
+	    <div class="col-sm-2">
+		    <input type="text" class="form-control" id="radius1" name="radius1"  />
+	    </div>
+	    <div class="col-sm-2">
+		 <input type="button" class="btn btn-primary btn-block add-zip" value="Add Zip" />
+	    </div>
+          </div>
+
+	  </div>
+	  {% endif %}
+        </form>
+{% endblock  %}

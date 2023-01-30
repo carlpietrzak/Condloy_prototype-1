@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+      {% for message in get_flashed_messages() %}
+       <div class="alert alert-warning">
+         <button
+           type="button"
+           class="close"
+           data-dismiss="alert">
+         </button>
+         {{ message }}
+       </div>
+      {% endfor %}
+
+
+        <div class="row">
+	   <nav class="row">	 
+            <nav class="navbar">
+              <ol class="breadcrumb bg-white">
+                 <li class="breadcrumb-item active" aria-current="page">Organization Profile</li>
+              </ol>
+            </nav>
+	    </nav> 
+        </div>
+	{% if user_type == 'admin'  %}
+        <a href="{{ url_for('edit_org', org_id=org.id) }}" class="btn btn-primary btn-sm">Edit Organization</a>
+        {% else  %}
+	<a href="{{ url_for('edit_org') }}" class="btn btn-primary btn-sm">Edit Organization</a>
+	{% endif %}
+	<form id="org-form">
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+           <div class="form-group row">
+            <label for="orgName" class="col-sm-2 col-form-label">Name</label>
+	    <div class="col-sm-10"><input class="form-control" value="{{ org.name  }}" readonly />
+            </div>
+          </div>
+           <div class="form-group row">
+            <label for="orgType" class="col-sm-2 col-form-label">Org Type</label>
+            <div class="col-sm-10"><input class="form-control" value="{{ org.org_type  }}" readonly />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="orgAddress" class="col-sm-2 col-form-label">Address</label>
+            <div class="col-sm-10"><input class="form-control" value="{{ org.street_address }}" readonly />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="orgCity" class="col-sm-2 col-form-label">City</label>
+            <div class="col-sm-10"><input class="form-control" value="{{ org.city  }}" readonly />
+            </div>
+          </div>
+           <div class="form-group row">
+            <label for="orgState" class="col-sm-2 col-form-label">State</label>
+            <div class="col-sm-10"><input class="form-control" value="{{ org.state  }}" readonly />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="orgZipcode" class="col-sm-2 col-form-label">Zip Code</label>
+            <div class="col-sm-10"><input class="form-control" value="{{ org.zipcode  }}" readonly />
+            </div>
+          </div>
+          {% if user_type == 'Vendor' or user_type == 'admin' %}
+	  {% for user in users  %}
+          <div class="form-group row">
+            <label for="user" class="col-sm-2 col-form-label">User</label>
+            <div class="col-sm-10"><input class="form-control" value="{{ user.first_name + ' '  +  user.last_name}}" readonly />
+            </div>
+          </div>
+	 
+          <div class="form-group row">
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
+	    <div class="col-sm-10"><input class="form-control" value="{{ user.email }}" readonly />
+            </div>
+          </div>
+          {% endfor %}
+          <div class="form-group row">
+            <label for="categories" class="col-sm-2 col-form-label">Task Categories</label>
+            <div class="col-sm-10"><input class="form-control" value="{{ org.categories  }}" readonly />
+            </div>
+          </div>
+          <div id="zipSection">
+           {% for tz in target_zips  %}
+           <div class="form-group row">
+            <label for="targetZip1" class="col-sm-2 col-form-label">Target Zip</label>
+            <div class="col-sm-2">
+                    <input type="text" class="form-control" id="targetZip1" name="targetZip1" value={{ tz.zipcode  }} readonly />
+            </div>
+            <label for="radius1" class="col-sm-2 col-form-label">Radius (Miles)</label>
+            <div class="col-sm-2">
+                    <input type="text" class="form-control" id="radius1" name="radius1" value={{ tz.max_distance  }} readonly />
+            </div>
+           </div>
+          {% endfor %}
+          </div> 
+          {% endif %}
+        </form>
+{% endblock  %}

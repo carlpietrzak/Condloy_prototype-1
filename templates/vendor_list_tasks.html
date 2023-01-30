@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <div class="row">
+        <nav class="row">
+        <nav class="navbar">
+          <ol class="breadcrumb bg-white">
+		  <li class="breadcrumb-item active" aria-current="page">{{status[0]|upper}}{{status[1:]}} Tasks</li>
+          </ol>
+	</nav>
+        </nav>
+        </div>
+	<form action="{{ url_for('vendor_tasks', status=status)  }}" method="get" hidden>
+           <div class="form-group row">
+             <div class="col-sm-4"> 
+	      <button type="submit" class="btn btn-info">Filter</button>
+              <select class="selectpicker" id="taskCategory" name="taskCategory" data-live-search="true" title="Category" multiple>
+		      <option data-tokens="Appliance Repair"    {{ 'selected 'if 'Appliance Repair' in categories}}>Appliance Repair</option>
+                <option data-tokens="Blacktop Sealcoating"  {{ 'selected 'if 'Blacktop Sealcoating' in categories}}>Blacktop Sealcoating</option>
+                <option data-tokens="Cable & Internet" {{ 'selected 'if 'Cable / Internet' in categories}}>Cable / Internet</option>
+                <option data-tokens="Carpet Cleaning" {{ 'selected 'if 'Carpet Cleaning' in categories}}>Carpet Cleaning</option>
+		<option data-tokens="Cleaning"  {{ 'selected 'if 'Cleaning' in categories}}>Cleaning</option>
+		<option data-tokens="Construction Contractors"  {{ 'selected 'if 'Construction Contractors' in categories}}>Construction Contractors</option>
+                <option data-tokens="Electricians"  {{ 'selected 'if 'Electricians' in categories}}>Electricians</option>
+		<option data-tokens="Elevator Repair/Maintenance"  {{ 'selected 'if 'Elevator Repair/Maintenance' in categories}}>Elevator Repair/Maintenance</option>
+		<option data-tokens="Environmental Consulting"  {{ 'selected 'if 'Environmental Consulting' in categories}}>Environmental Consulting</option>
+		<option data-tokens="FHA Certification" {{ 'selected 'if 'FHA Certification' in categories}}>FHA Certification</option>
+                <option data-tokens="Fencing"  {{ 'selected 'if 'Fencing' in categories}}>Fencing</option>
+                <option data-tokens="Fire Safety Equipment"  {{ 'selected 'if 'Fire Safety Equipment' in categories}}>Fire Safety Equipment</option>
+                <option data-tokens="Garage Door Repair" {{ 'selected 'if 'Garage Door Repair' in categories}}>Garage Door Repair</option>
+                <option data-tokens="Gutter Repair/Maintenance" {{ 'selected 'if 'Gutter Repair/Maintenance' in categories}}>Gutter Repair/Maintenance</option>
+		<option data-tokens="Handyman" {{ 'selected 'if 'Handyman' in categories}}>Handyman</option>
+                <option data-tokens="Heating & AC Repair"  {{ 'selected 'if 'Heating / AC Repair' in categories}}>Heating / AC Repair</option>
+                <option data-tokens="Inspections/Reserve Studies"  {{ 'selected 'if 'Inspections/Reserve Studies' in categories}}>Inspections/Reserve Studies</option>
+                <option data-tokens="Intercom/Entry Systems"  {{ 'selected 'if 'Intercom/Entry Systems' in categories}}>Intercom/Entry Systems</option>
+                <option data-tokens="Land Surveying"  {{ 'selected 'if 'Land Surveying' in categories}}>Land Surveying</option>
+                <option data-tokens="Landscaping/Snow Removal" {{ 'selected 'if 'Landscaping/Snow Removal' in categories}}>Landscaping/Snow Removal</option>
+                <option data-tokens="Laundry Service"  {{ 'selected 'if 'Laundry Service' in categories}}>Laundry Service</option>
+                <option data-tokens="Locksmith"  {{ 'selected 'if 'Locksmith' in categories}}>Locksmith</option>
+                <option data-tokens="Mediation Services"  {{ 'selected 'if 'Mediation Services' in categories}}>Mediation Services</option>
+                <option data-tokens="Packaged Maintenance"  {{ 'selected 'if 'Packaged Maintenance' in categories}}>Packaged Maintenance</option>
+                <option data-tokens="Pest Control"  {{ 'selected 'if 'Pest Control' in categories}}>Pest Control</option>
+                <option data-tokens="Plumbing" {{ 'selected 'if 'Plumbing' in categories}}>Plumbing</option>
+                <option data-tokens="Real Estate Tax Appeals" {{ 'selected 'if 'Real Estate Tax Appeals' in categories}}>Real Estate Tax Appeals</option>
+                <option data-tokens="Restoration (Water & Smoke Damage)" {{ 'selected 'if 'Restoration (Water / Smoke Damage)' in categories}}>Restoration (Water / Smoke Damage)</option>
+                <option data-tokens="Roofing" {{ 'selected 'if 'Roofing' in categories}}>Roofing</option>
+                <option data-tokens="Tuck Pointing & Masonry" {{ 'selected 'if 'Tuck Pointing / Masonry' in categories}}>Tuck Pointing / Masonry</option>
+                <option data-tokens="Other" {{ 'selected 'if 'Other' in categories}}>Other</option>
+              </select>
+	     </div>
+          </div>
+          </form>
+	  <table class="table" style="margin-top: 1rem;">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+	      <th scope="col">Category</th>              
+	      <th scope="col">Name</th>
+              <th scope="col">Date Created</th>
+              <th scope="col">Date Due</th>
+	      <th scope="col">HOA</th>
+            </tr>
+          </thead>
+          <tbody>
+	    {% for task in tasks %}	  
+            <tr>
+	      <td><a href="{{ url_for('view_task', id=task.id)   }}">{{ task.id  }}</a></td>
+	      <td>{{ task.category  }}</td>
+	      <td>{{ task.name }}</td>
+	      <td>{{ task.created_at.strftime('%B %d, %Y') }}</td>
+	      <td>{{ task.due_by.strftime('%B %d, %Y') }}</td>
+	      <td>{{ task.hoa_org.id  }}</td>
+            </tr>
+            </tr>
+	    {% endfor  %}
+          </tbody>
+          </table>
+	  {% endblock  %}

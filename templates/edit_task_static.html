@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <div class="row">
+            <nav class="navbar">
+              <ol class="breadcrumb bg-white">
+		<li class="breadcrumb-item"><a href="{{ url_for('tasks') }}">Home</a></li>
+		<li class="breadcrumb-item"><a href="{{ url_for('open_tasks') }}">Open Tasks</a></li>
+		<li class="breadcrumb-item"><a href="{{ url_for('view_task') }}">1</a></li>
+                <li class="breadcrumb-item" aria-current="page">Edit</li>
+              </ol>
+            </nav>
+        </div>
+        <form id="create-task-form">
+	  <a href="{{ url_for('view_task')  }}" class="btn btn-primary btn-sm">Save Changes</a>
+	  <a href="{{ url_for('view_task')  }}" class="btn btn-danger btn-sm">Cancel</a>
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="taskDescription" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" id="taskDescription" rows=5>The intercom at the main gate is broken. Looks like the wiring might be the issue. Maybe place a character limit and indicate extra text using this...Here is more text.</textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="taskCategory" class="col-sm-2 col-form-label">Category</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="taskCategory" value="repairs">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="dueDateField" class="col-sm-2 col-form-label">Due Date</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="dueDateField" value="2021-03-05">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlFile1" class="col-sm-2 col-form-label">File Upload</label>
+            <div class="col-sm-10">
+              <input type="file" class="form-control-file" id="exampleFormControlFile1" multiple>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="displayFiles" class="col-sm-2 col-form-label">Files</label>
+            <div class="col-sm-10">
+            intercom1.png <button class="btn btn-secondary btn-sm">Remove</button> intercom2.png <button class="btn btn-secondary btn-sm">Remove</button>
+            </div>
+          </div>
+        </form>
+{% endblock  %}

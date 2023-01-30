@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+         <div class="row">
+            <nav class="navbar">
+              <ol class="breadcrumb bg-white">
+		<li class="breadcrumb-item"><a href="{{ url_for('tasks')  }}">Home</a></li>
+		<li class="breadcrumb-item"><a href="{{ url_for('open_tasks')  }}">Open Tasks</a></li>
+		<li class="breadcrumb-item"><a href="{{url_for('view_task')  }}">1</a></li>
+                <li class="breadcrumb-item" aria-current="page">History</li>
+              </ol>
+            </nav>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Action</th>
+              <th scope="col">User</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tuesday, March 6th 2020, 5:55 pm</td>
+              <td>Due Date changed from 2020-03-06 to 2020-03-05</td>
+              <td>rkraynak</td>
+            </tr>
+            <tr>
+              <td>Tuesday, March 6th 2020, 5:30 pm</td>
+              <td>Description changed from "initial block of text" to "an updated block of text"</td>
+              <td>rkraynak</td>
+            </tr>
+          </tbody>
+          </table>
+	  {% endblock  %}

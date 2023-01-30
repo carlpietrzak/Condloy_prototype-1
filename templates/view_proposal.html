@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block content %}
+        <div class="row">
+	<nav class="row">
+        <nav class="navbar">
+          <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item">Tasks</li>
+            <li class="breadcrumb-item"><a href="{{ url_for('view_task', id=proposal.task.id)}}">{{ proposal.task.name  }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('list_proposals', task_id=proposal.task.id) }}">Proposals</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ proposal.id  }}</li>
+          </ol>
+        </nav>
+	</nav>
+        </div>
+	{% if user_type == 'HOA' %}
+		<form id="proposal-action-form" action="{{ url_for('proposal_action', id=proposal.id, task_id=proposal.task.id)  }}" method="post">
+        	{% if proposal.status == 'Accepted' or proposal.status == 'Withdrawn' or proposal.status == 'Declined' or proposal.task.accepted_proposal_id != None %}
+                        <a class="btn btn-secondary btn-sm" href="#">Accept Proposal</a>
+                        <a class="btn btn-secondary btn-sm" href="#">Decline</a>
+		        <a class="btn btn-secondary btn-sm" href="#">Request Updates</a>
+        	{% else  %}
+		        <button type="submit"  class="btn btn-success btn-sm" name="action"  value="hoa-accept">Accept Proposal</button>
+                        <button type="submit"  class="btn btn-danger btn-sm" name="action" value="hoa-decline">Decline</button>
+ 			<a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal">Request Updates</a>
+        	{% endif %}
+		</form>
+	{% else  %}
+		<form id="proposal-action-form" action="{{ url_for('proposal_action', id=proposal.id, task_id=proposal.task.id)  }}" method="post">
+		{% if proposal.status == 'Accepted' or proposal.status == 'Withdrawn' or proposal.status == 'Declined'  %}
+			<a class="btn btn-secondary btn-sm" href="#">Edit</a>
+		{% else  %}
+        		<a class="btn btn-info btn-sm" href="{{ url_for('edit_proposal', id=proposal.id, task_id=proposal.task.id)  }}">Edit</a>
+		{% endif %}
+                 {% if proposal.status == 'Updates Requested'  %}
+        		<a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#respondModal" >Respond to Request</a>
+		{% endif %}
+
+		<button type="submit" class="btn btn-danger btn-sm" name="action"  value="vendor-withdraw">Withdraw</button>
+		</form>
+	{% endif %}
+        <form id="view-proposal-form">
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+          <div class="form-row">
+	           <div class="form-group col-sm-3">
+              <label for="estimate">Estimate</label>
+	             <input class="form-control" value="${{ proposal.cost_estimate  }}" readonly></input>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label for="status">Status</label>
+	             <input class="form-control" value="{{ proposal.status }}" readonly></input>
+            </div>
+
+	           <div class="form-group col-sm-3">
+              <label for="createdDate">Created Date</label>
+              <input class="form-control" value="{{ proposal.created_at.strftime('%B %d, %Y')  }}" readonly></input>
+            </div>
+          </div>
+          {% if user_type == 'admin' or user_type == 'HOA'  %}
+          <div class="form-row">
+	           <div class="form-group col-sm-3">
+              <label for="vendorName">Vendor Name</label>
+	             <input class="form-control" value="{{ proposal.vendor_org.name  }}" readonly></input>
+            </div>
+            <div class="form-group col-sm-3">
+              <label for="status">Vendor ID</label>
+	             <input class="form-control" value="{{ proposal.vendor_org.id }}" readonly></input>
+            </div>
+          </div>
+          {% endif %}
+	         <div class="form-row">
+            <div class="form-group col-sm-6">
+	             <label for="content">Description</label>
+	               <textarea class="form-control" rows=3 readonly>{{ proposal.content  }}</textarea>
+            </div>
+            {% if user_type == 'Vendor'  %}
+	           <div class="form-group col-sm-3">
+              <label for="createdBy">Created By</label>
+              <input class="form-control" value="{{ proposal.user.first_name  }} {{ proposal.user.last_name  }}" readonly></input>
+            </div>
+            {% endif %}
+          </div>
+          {% if proposal.requested_updates is not none and user_type == 'HOA' %}
+          <div class="form-row">
+	           <div class="form-group col-sm-6">
+               <label for="status">Your Requested Updates</label>
+	              <input class="form-control" value="{{ proposal.requested_updates  }}" readonly></input>
+              </div>
+            </div>
+          {% elif proposal.requested_updates is not none and user_type == 'Vendor' %}
+	         <div class="form-row">
+	            <div class="form-group col-sm-3">
+               <label for="status">HOA Requested Updates</label>
+	              <input class="form-control" value="{{ proposal.requested_updates }}" readonly></input>
+            </div>
+          </div>
+	         {% endif %}
+           {% if proposal.vendor_response is not none and user_type == 'HOA' %}
+           <div class="form-row">
+	     <div class="form-group col-sm-3">
+               <label for="status">Vendor Response</label>
+	       <input class="form-contrl" value="{{ proposal.vendor_response  }}" readonly></input>
+            </div>
+          </div>
+          {% elif proposal.requested_updates is not none and user_type == 'Vendor' %}
+          <div class="form-row">
+	    <div class="form-group col-sm-3">
+               <label for="status">Your Response</label>
+	       <input class="form-control" value="{{ proposal.vendor_response  }}" readonly></input>
+            </div>
+          </div>
+          {% endif %}
+         {% if proposal.vendor_response is not none and proposal.vendor_response_date is not none %}
+           <div class="form-row">
+	     <div class="form-group col-sm-3">
+               <label for="status">Response Date</label>
+	       <input class="form-control" value="{{ proposal.vendor_response_date  }}" readonly></input>
+             </div>
+           </div>
+          {% endif  %}
+
+        </form>
+
+
+         <table id="myTable" class=" table order-list">
+           <thead>
+             <tr class="d-flex">
+               <th class="col-5">Description</th>
+               <th class="col-2">Price</th>
+               <th class="col-1">Quantity</th>
+               <th class="col-2">Total</th>
+               <th class="col-2"><input type="button" class="btn btn-primary btn-block" id="addRow" value="Add Line" style="visibility: hidden"/></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for line in proposal.lines %}
+            <tr class="d-flex" id="row">
+              <td class="col-5">
+	        <input type="text" name="descriptionLine" class="form-control" value="{{ line.description  }}" readonly/>
+              </td>
+              <td class="col-2">
+		<input type="mail" id="price" name="priceLine" class="form-control" value="{{ line.price  }}" readonly/>
+              </td>
+              <td class="col-1">
+		<input type="text" id="quantity"  name="quantityLine" class="form-control" value="{{ line.quantity  }}" readonly/>
+              </td>
+              <td class="col-2">
+		<input type="text" id="total"  name="totalLine" class="form-control" value="{{ line.total  }}" readonly/>
+              </td>
+              <td class="col-2"><a class="deleteRow" class="form-control" ></a>
+              </td>
+           </tr>
+	   {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td class="col-12" style="text-align: left;">
+              </td>
+            </tr>
+            <tr>
+            </tr>
+         </tfoot>
+         </table>
+
+
+        <!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  	 <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Request Updates</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+             </div>
+	   <form id="hoa-request-updates-form" action="{{ url_for('proposal_action', id=proposal.id, task_id=proposal.task.id, action='hoa-request-update') }}" method="post">
+           <div class="modal-body">
+               <input id="requestedUpdates" name="requestedUpdates" type="text" placeholder="comments here" class="form-control"></input>
+           </div>
+           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" name="action" value="hoa-request-update">Save changes</button>
+           </div>
+	   </form >
+          </div>
+         </div>
+        </div>
+
+	<div class="modal fade" id="respondModal" tabindex="-1" role="dialog" aria-labelledby="respondModalLabel" aria-hidden="true">
+  	 <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+              <h5 class="modal-title" id="respondModalLabel">Request Updates</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+             </div>
+	   <form id="vendor-response-form" action="{{ url_for('vendor_response', id=proposal.id, task_id=proposal.task.id) }}" method="post">
+           <div class="modal-body">
+		<div class="form-check">
+  		<input class="form-check-input" type="radio" name="vendorResponse" id="flexRadioDefault1" value="Requested Changes Accepted">
+  		<label class="form-check-label" for="flexRadioDefault1">
+    			Requested Changes Accepted
+  		</label>
+		</div>
+		<div class="form-check">
+  		<input class="form-check-input" type="radio" name="vendorResponse" id="flexRadioDefault2" value="Requested Changes Declined">
+  		<label class="form-check-label" for="flexRadioDefault2">
+    			Requested Changes Declined
+  		</label>
+		</div>
+               <input id="vendorResponseComments" name="vendorResponseComments" type="text" placeholder="comments here" class="form-control"></input>
+           </div>
+           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" name="action" value="vendor-respond-update">Save changes</button>
+           </div>
+	   </form >
+          </div>
+         </div>
+        </div>
+{% endblock %}

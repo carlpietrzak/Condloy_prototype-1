@@ -1,0 +1,3 @@
+Hello {{ proposal.task.user.first_name }},
+
+Proposal {{ proposal.id  }} for task "{{ proposal.task.name }}" has been edited.

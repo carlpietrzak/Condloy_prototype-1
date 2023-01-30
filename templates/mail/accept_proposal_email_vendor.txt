@@ -1,0 +1,3 @@
+Hello {{ proposal.user.name }},
+
+Your proposal {{ proposal.id }} has been accepted for task "{{ proposal.task.name  }}".

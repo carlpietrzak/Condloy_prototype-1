@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+       <script src="{{ url_for('static', filename='js/addProposalLines.js') }}"></script> 
+        <div class="row">
+	<nav class="row">
+        <nav class="navbar">
+          <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item">Tasks</li>
+            <li class="breadcrumb-item"><a href="{{ url_for('view_task', id=task_id)}}">{{ task_name  }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('list_proposals', task_id=task_id) }}">Proposals</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create</li>
+          </ol>
+        </nav>
+	</nav>
+        </div>
+	<form id="create-task-form" action="{{ url_for('create_proposal', task_id=task_id)  }}" method="post">
+           <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+           <a class="btn btn-danger btn-sm"  href="{{ url_for('view_task', id=task_id) }}">Cancel</a>
+           <div class="form-group row">
+            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" id="description" name="description" rows=5 placeholder="description here"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="estimate" class="col-sm-2 col-form-label">Estimate ($)</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="estimate" name="estimate" >
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="exampleFormControlFile1" class="col-sm-2 col-form-label">File Upload</label>
+            <div class="col-sm-10">
+              <input type="file" class="form-control-file" id="exampleFormControlFile1" multiple>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+	 <div class="container-fluid">  
+         <table id="myTable" class=" table order-list">
+           <thead>
+             <tr class="d-flex">
+               <th class="col-6">Description</td>
+               <th class="col-1">Price</td>
+               <th class="col-1">Quantity</td>
+               <th class="col-2">Total</td>
+	       <th class="col-2"><input type="button" class="btn btn-primary btn-block" id="addRow" value="Add Line"/></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="d-flex" id="row1">
+              <td class="col-5">
+                <input type="text" name="descriptionLine1" class="form-control"/>
+              </td>
+              <td class="col-2">
+                <input type="mail" id="price1" name="priceLine1"class="form-control" onkeyup="calculateTotal(1)"/>
+              </td>
+              <td class="col-1">
+                <input type="text" id="quantity1"  name="quantityLine1" class="form-control" onkeyup="calculateTotal(1)"/>
+              </td>
+              <td class="col-2">
+                <input type="text" id="total1"  name="totalLine1" class="form-control line-total"/>
+              </td>
+              <td class="col-2"><a class="deleteRow" class="form-control" ></a>
+              </td>
+           </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td class="col-12" style="text-align: left;">
+              </td>
+            </tr>
+            <tr>
+            </tr>
+         </tfoot>
+         </table>
+	 </div>
+         </form>
+	{% endblock  %}

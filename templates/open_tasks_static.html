@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <div class="row">
+        <nav class="navbar">
+          <ol class="breadcrumb bg-white">
+		  <li class="breadcrumb-item"><a href="{{ url_for('tasks') }}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Open Tasks</li>
+          </ol>
+        </nav>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Number</th>
+              <th scope="col">Category</th>
+              <th scope="col">Description</th>
+              <th scope="col">Date Created</th>
+              <th scope="col">Date Due</th>
+              <th scope="col">Messages</th>
+              <th scope="col">Proposals</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+	      <th scope="row"><a href="{{ url_for('view_task')   }}">1</a></th>
+              <td>repairs</td>
+              <td>The intercom at the main gate is broken. Looks like the wiring might be the issue. Maybe place a character limit and indicate extra text using this...</td>
+              <td>2020-03-05</td>
+              <td>2020-03-15</td>
+	      <td><a href="{{ url_for('messages') }}">2</a></td>
+	      <td><a href="{{ url_for('proposals')   }}">2</a></td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="#">2</a></th>
+              <td>repairs</td>
+              <td>Top floor ceiling is leaking in the hallway.</td>
+              <td>2020-03-05</td>
+              <td>2020-03-06</td>
+              <td><a href="#">4</a></td>
+              <td><a href="#">0</a></td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="#">3</a></th>
+              <td>cleaning</td>
+              <td>The carpet in the first floor commons area needs to get shampooed and cleaned.</td>
+              <td>2020-03-05</td>
+              <td>2020-04-15</td>
+              <td><a href="#">2</a></td>
+              <td><a href="#">3</a></td>
+            </tr>
+          </tbody>
+          </table>
+	  {% endblock  %}

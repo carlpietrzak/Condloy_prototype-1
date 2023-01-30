@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+       <div class="row">
+	  <nav class="row">     
+            <nav class="navbar">
+              <ol class="breadcrumb bg-white">
+                 <li class="breadcrumb-item">Tasks</li>
+                 <li class="breadcrumb-item active" aria-current="page">{{ task.name  }}</li>
+              </ol>
+            </nav>
+	  </nav>
+        </div> 
+        <form id="admin-manage-task-form" action="{{ url_for('admin_manage_task', task_id=task.id) }}" method="post">
+	  <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+          <div class="form-group row">
+            <div class="col-sm-10">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-10">
+	    
+             <div class="form-check">
+	       <input class="form-check-input" type="radio" name="adminApproved" id="flexRadioDefault1" value="true" {% if task.admin_approved == 'true'  %} checked {% endif  %}>
+               <label class="form-check-label" for="flexRadioDefault1">
+                 Approved
+               </label>
+             </div>
+             <div class="form-check">
+		<input class="form-check-input" type="radio" name="adminApproved" id="flexRadioDefault2" value="false" {% if task.admin_approved == 'false' %} checked {% endif %}>
+                <label class="form-check-label" for="flexRadioDefault2">
+                 Not Approved
+               </label>
+              </div>
+             </div>
+	   </div>
+	   <div class="form-group row">
+            <div class="col-sm-10">
+             <select class="selectpicker" id="taskAssignedVendors" name="taskAssignedVendors" data-live-search="true" multiple> 
+               {% for v in vendors %}
+	       <option data-tokens="{{ v.name }}" value="{{v.id}}" {{ 'selected' if v.id in current_vendors }} >{{ v.name }}</option> 
+               {% endfor %}
+             </select>
+            </div>
+          </div>
+        </form>
+{% endblock  %}
